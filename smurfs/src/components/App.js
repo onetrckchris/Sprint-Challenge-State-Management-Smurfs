@@ -1,17 +1,30 @@
 import React, { Component } from "react";
+import { connect } from 'react-redux';
+import { Route } from 'react-router-dom';
+
+import { addSmurf } from '../store/actions';
+import Smurfs from './Smurfs';
+import SmurfForm from './SmurfForm';
+import Navbar from './Navbar';
+
 import "./App.css";
 
 class App extends Component {
+  addSmurf = (smurf) => {
+    this.props.addSmurf(smurf);
+  }
+
   render() {
     return (
       <div className="App">
-        <h1>SMURFS! 2.0 W/ Redux</h1>
-        <div>Welcome to your state management version of Smurfs!</div>
-        <div>Start inside of your `src/index.js` file!</div>
-        <div>Have fun!</div>
+        <Navbar />
+        <Route exact path="/" component={Smurfs} />
+        <Route exact path="/add-smurf" render={(props) => (
+          <SmurfForm {...props} addSmurf={this.addSmurf} />
+        )} />
       </div>
     );
   }
 }
 
-export default App;
+export default connect(null, { addSmurf })(App);
